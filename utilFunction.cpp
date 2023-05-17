@@ -1,4 +1,3 @@
-#include <iostream>
 #include "BPTree.h"
 
 // default constructor

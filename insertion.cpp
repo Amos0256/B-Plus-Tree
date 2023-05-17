@@ -1,6 +1,3 @@
-#include <iostream>
-#include <algorithm>
-#include <vector>
 #include "BPTree.h"
 
 using namespace std;
@@ -49,7 +46,14 @@ void BPTree::insertLeaf(int key) {
         if (cursor->keys.size() < maxNodeLimit) {
             // find the position bigger key
             vector<int>::iterator iter = upper_bound(cursor->keys.begin(), cursor->keys.end(), key);
+            // cout << iter - cursor->keys.begin() << endl;
             cursor->keys.insert(iter, key);
+            
+            // for(auto it : cursor->keys) {
+            //     cout << it << " ";
+            // }
+            // cout << endl;
+
             cout << "Inserted successfully: " << key << endl;
         } 
         // damn !!! leaf node overflow
@@ -60,8 +64,13 @@ void BPTree::insertLeaf(int key) {
             // vector<FILE*> virtualDataNode(cursor->ptr2TreeOrData.dataPtr);
 
             //finding the probable place to insert the key
-            vector<int>::iterator iter = upper_bound(cursor->keys.begin(), cursor->keys.end(), key);
+            vector<int>::iterator iter = upper_bound(virtualNode.begin(), virtualNode.end(), key);
             virtualNode.insert(iter, key);
+            
+            // for(auto it : virtualNode) {
+            //     cout << it << " ";
+            // }
+            // cout << endl;
 
             // create a new node for split
             Node *newLeaf = new Node;
@@ -71,7 +80,9 @@ void BPTree::insertLeaf(int key) {
             Node *next = cursor->nextLeaf;
             // original node pointer revise
             cursor->nextLeaf = newLeaf;
-            next->prevLeaf = newLeaf;
+            if(next) {
+                next->prevLeaf = newLeaf;
+            }
             // new node pointer revise
             newLeaf->prevLeaf = cursor;
             newLeaf->nextLeaf = next;

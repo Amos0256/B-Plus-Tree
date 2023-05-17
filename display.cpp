@@ -1,5 +1,3 @@
-#include <iostream>
-#include <queue>
 #include "BPTree.h"
 
 void BPTree::sequentialDisplay(Node* cursor) {
@@ -20,7 +18,7 @@ void BPTree::sequentialDisplay(Node* cursor) {
         }
         for (int i = firstLeaf->keys.size(); i < maxNodeLimit; i++) {
             cout << '_';
-            if(i < maxNodeLimit) {
+            if(i < maxNodeLimit - 1) {
                 cout << ',';
             }
         }

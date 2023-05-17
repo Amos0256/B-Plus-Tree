@@ -7,11 +7,11 @@
 void insertionMethod(BPTree** bPTree) {
     int number;
 
-    cout << "Enter the number:";
+    cout << "Enter the number: ";
     cin >> number;
 
     (*bPTree)->insertLeaf(number);
-    cout << "Insert key " << number << " :" <<endl;
+    cout << "Insert key " << number << " :" << endl;
     
     (*bPTree)->sequentialDisplay((*bPTree)->getRoot());
 }
@@ -47,7 +47,7 @@ int main() {
     // operation mode
     int mode;
 
-    cout << "Input the order of B+ tree:" << endl;
+    cout << "Input the order of B+ tree: ";
     cin >> order;
     BPTree* bPTree = new BPTree(order);
 
@@ -59,11 +59,12 @@ int main() {
     
     bool flag = true;
     while (flag) {
+        cout << endl;
         cout << "Select the operation:" << endl;
-        cout << "Press 1: Insert" << endl;
-        cout << "Press 2: Delete" << endl;
-        cout << "Press 3: Display" << endl;
-        cout << "Press 4: Quit" << endl;
+        cout << "Press [1]: Insert" << endl;
+        cout << "Press [2]: Delete" << endl;
+        cout << "Press [3]: Display" << endl;
+        cout << "Press [4]: Quit" << endl;
         cin >> mode;
 
         switch (mode) {
