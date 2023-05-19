@@ -3,8 +3,8 @@
 // default constructor
 Node::Node() {
     this->isLeaf = false;
-    this->prevLeaf = nullptr;
-    this->nextLeaf = nullptr;
+    this->prev = nullptr;
+    this->next = nullptr;
 }
 
 // default constructor
@@ -21,9 +21,9 @@ BPTree::BPTree(unsigned int order) {
 }
 
 // return maximum node
-unsigned int BPTree::getMaxNodeLimit() {
-    return this->maxNodeLimit;
-}
+// unsigned int BPTree::getMaxNodeLimit() {
+//     return this->maxNodeLimit;
+// }
 
 // return root
 Node* BPTree::getRoot() {
@@ -51,13 +51,10 @@ Node* BPTree::firstLeftLeaf(Node* cursor) {
     return nullptr;
 }
 
-
+// find parent usinf DFS and ignores leaf nodes as they can't be a parent
+// also ignores second last level because will never find parent of a leaf node during insertion using this function
 Node** BPTree::findParent(Node* cursor, Node* child) {
     static Node *parent;
-    /*
-		Finds parent using depth first traversal and ignores leaf nodes as they cannot be parents
-		also ignores second last level because we will never find parent of a leaf node during insertion using this function
-	*/
 
     if (cursor->isLeaf || cursor->children[0]->isLeaf)
         return nullptr;

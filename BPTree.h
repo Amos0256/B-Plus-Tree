@@ -3,11 +3,10 @@
 
 #include <iostream>
 #include <algorithm>
-#include <string>
+#include <iomanip>
 #include <vector>
 
 using namespace std;
-
 class Node {
     /*
 		Generally size of the this node should be equal to the block size. 
@@ -17,24 +16,23 @@ class Node {
 
 		IMPORTANT := All the data has to be present in the leaf node
 	*/
-    public:
+    private:
         // true for leaf, false for others
         bool isLeaf;
-        // key
+        // key vector
         vector<int> keys;
         // pointer to prev node for leaf nodes
-        Node *prevLeaf;
+        Node *prev;
         // pointer to next node for leaf nodes
-        Node *nextLeaf;
-        
+        Node *next;
         // array of pointers to children sub-trees for internal Nodes
         vector<Node *> children;
-        
+    public:
+        // default constructor
+        Node();
         // access private members of the class Node
         friend class BPTree;  
         
-        // constructor
-        Node();
 };
 
 class BPTree {
@@ -61,19 +59,24 @@ class BPTree {
         BPTree();
         // constructor
         BPTree(unsigned int order);
+        // get the maximum node limit that is 2 * order of the b+ tree
+        // unsigned int getMaxNodeLimit();
+        // get the root of b+ tree
         Node* getRoot();
-        unsigned int getMaxNodeLimit();
+        // set root
         void setRoot(Node *);
-        // void display(Node* cursor);
-        // sequential display the B+ tree
-        void sequentialDisplay(Node* cursor);
+        // display the B+ tree
+        void display(Node* cursor, unsigned int space = 0);
+        // search the key
         void search(int key);
-        // insert number
+        // insert key(leaf) to b+ tree
         void insertLeaf(int key);
-        // insert index from child in cursor(parent)
+        // insert index(internal node) to b+ tree
         void insertInternal(int index, Node** cursor, Node** child);
-        void removeKey(int key);
-        void removeInternal(int x, Node* cursor, Node* child);
+        // delete the key(leaf) from b+ tree
+        void deleteLeaf(int key);
+        // delete index(internal node) form b+ tree
+        void deleteInternal(int index, Node* cursor, Node* child);
 };
 
 #endif

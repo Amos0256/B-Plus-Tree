@@ -7,13 +7,27 @@
 void insertionMethod(BPTree** bPTree) {
     int number;
 
-    cout << "Enter the number: ";
+    cout << "Enter the number wants to be inserted: ";
     cin >> number;
 
     (*bPTree)->insertLeaf(number);
     cout << "Insert key " << number << " :" << endl;
     
-    (*bPTree)->sequentialDisplay((*bPTree)->getRoot());
+    // display
+    (*bPTree)->display((*bPTree)->getRoot());
+}
+
+
+void deleteMethod(BPTree* bPTree) {
+    int number;
+
+    cout << "Enter the number wants to be deleted: ";
+    cin >> number;
+
+    bPTree->deleteLeaf(number);
+
+    // display
+    bPTree->display(bPTree->getRoot());
 }
 
 // void searchMethod(BPTree* bPTree) {
@@ -25,27 +39,14 @@ void insertionMethod(BPTree** bPTree) {
 // }
 
 void displayMethod(BPTree* bPTree) {
-    bPTree->sequentialDisplay(bPTree->getRoot());
+    bPTree->display(bPTree->getRoot());
 }
-
-// void deleteMethod(BPTree* bPTree) {
-//     cout << "Showing you the Tree, Choose a key from here: " << endl;
-//     bPTree->display(bPTree->getRoot());
- 
-//     int tmp;
-//     cout << "Enter a key to delete: " << endl;
-//     cin >> tmp;
-//     bPTree->removeKey(tmp);
-
-//     //Displaying
-//     bPTree->display(bPTree->getRoot());
-// }
 
 int main() {
     // order of B+ tree 
-    int order;
+    unsigned int order;
     // operation mode
-    int mode;
+    unsigned int mode;
 
     cout << "Input the order of B+ tree: ";
     cin >> order;
@@ -72,7 +73,7 @@ int main() {
                 insertionMethod(&bPTree);
                 break;
             case 2:
-                // deleteMethod(bPTree);
+                deleteMethod(bPTree);
                 break;
             case 3:
                 displayMethod(bPTree);
