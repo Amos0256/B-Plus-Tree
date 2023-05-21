@@ -5,7 +5,7 @@ void BPTree::deleteLeaf(int key) {
 
 	// if tree is empty
 	if (root == nullptr) {
-		cout << "B+ tree is empty!!!" << endl;
+		cout << "\033[31m\033[03mB+ tree is empty!\033[0m" << endl;
 		return ;
 	}
 
@@ -39,10 +39,9 @@ void BPTree::deleteLeaf(int key) {
 
 	// check if the value exists in this leaf node
     vector<int>::iterator iter = find(cursor->keys.begin(), cursor->keys.end(), key);
-    
     // if the key is not in the key vector, return
 	if (iter == cursor->keys.end()) {
-		cout << "Key not found in the b+ tree" << endl;
+		cout << "\033[31m\033[03mKey not found in the b+ tree!\033[0m" << endl;
 		return ;
 	}
     // if the key is in the key vector, delete
@@ -63,6 +62,8 @@ void BPTree::deleteLeaf(int key) {
 
     // check whether the underflow happened
     // sufficient node available for invariant to hold, underflow not happened
+    // internal node: order <= n <= 2 * order
+    // root: 1 <= n <= 2 * order
     if (cursor->keys.size() >= maxNodeLimit / 2 || cursor == root) {
 		return ;
 	}
@@ -73,6 +74,7 @@ void BPTree::deleteLeaf(int key) {
 	// case 1: try to borrow a key from left sibling
     // left sibling exists and can borrow from it
 	if (leftSibling >= 0) {
+        cout << "leftSibling: " << leftSibling << endl;
 		Node *leftNode = parent->children[leftSibling];
 
 		// check if left sibling has extra key to borrow
@@ -94,6 +96,7 @@ void BPTree::deleteLeaf(int key) {
 	// case 2: try to borrow a key from right sibling
     // right sibling exists and can borrow from it
 	if (rightSibling < parent->children.size()) {
+        cout << "rightSibling: " << rightSibling << endl;
 		Node *rightNode = parent->children[rightSibling];
 
 		// check if right sibling has extra key to borrow
@@ -121,7 +124,7 @@ void BPTree::deleteLeaf(int key) {
         leftNode->keys.insert(leftNode->keys.end(), cursor->keys.begin(), cursor->keys.end());
 		// set the next node of left node
 		leftNode->next = cursor->next;
-		cout << "Merging two leaf Nodes" << endl;
+		cout << "leftSibling Merging two leaf Nodes" << endl;
         
         // delete parent Node Key
 		deleteInternal(parent->keys[leftSibling], parent, cursor);
@@ -129,11 +132,15 @@ void BPTree::deleteLeaf(int key) {
     // if right sibling exists, merge the left sibling and cursor
 	else if (rightSibling <= parent->keys.size()) {
 		Node *rightNode = parent->children[rightSibling];
-		// transfer key to cursor
+        
+        // cout << *cursor->keys.begin() << endl;
+        // cout << *rightNode->keys.begin() << endl;
+		
+        // transfer key to cursor
         cursor->keys.insert(cursor->keys.end(), rightNode->keys.begin(), rightNode->keys.end());
         // set the next node of cursor node
 		cursor->next = rightNode->next;
-		cout << "Merging two leaf Nodes" << endl;
+		cout << "rightSibling Merging two leaf Nodes" << endl;
         
         // delete parent Node Key
 		deleteInternal(parent->keys[rightSibling - 1], parent, rightNode);
@@ -169,10 +176,15 @@ void BPTree::deleteInternal(int index, Node* cursor, Node* child) {
 
 	// delete the child from the parent
     vector<Node *>::iterator chd = find(cursor->children.begin(), cursor->children.end(), child);
+    Node *delChild = *chd;
     cursor->children.erase(chd);
+    delete delChild;
+    delChild = nullptr;
+
+    // display(cursor);
 
 	// if there is no underflow
-	if (cursor->keys.size() - 1 >= maxNodeLimit / 2) {
+	if (cursor->keys.size() >= maxNodeLimit / 2) {
 		cout << "Deleted " << index << " from internal node successfully" << endl;
 		return ;
 	}

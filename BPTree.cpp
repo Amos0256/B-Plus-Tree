@@ -7,8 +7,15 @@
 void insertionMethod(BPTree** bPTree) {
     int number;
 
-    cout << "Enter the number wants to be inserted: ";
-    cin >> number;
+    cout << "\033[03mEnter the number wants to be inserted: \033[0m";
+    while (cin >> number) {
+        if (isdigit(number)) {
+            break;
+        }
+        else {
+            cout << "\033[03mEnter the number wants to be inserted: \033[0m";
+        }
+    }
 
     (*bPTree)->insertLeaf(number);
     cout << "Insert key " << number << " :" << endl;
@@ -21,8 +28,15 @@ void insertionMethod(BPTree** bPTree) {
 void deleteMethod(BPTree* bPTree) {
     int number;
 
-    cout << "Enter the number wants to be deleted: ";
-    cin >> number;
+    cout << "\033[03mEnter the number wants to be deleted: \033[0m";
+    while (cin >> number) {
+        if (isdigit(number)) {
+            break;
+        }
+        else {
+            cout << "\033[03mEnter the number wants to be deleted: \033[0m";
+        }
+    }
 
     bPTree->deleteLeaf(number);
 
@@ -48,8 +62,15 @@ int main() {
     // operation mode
     unsigned int mode;
 
-    cout << "Input the order of B+ tree: ";
-    cin >> order;
+    cout << "\033[03mInput the order of B+ tree: \033[0m";
+    while (cin >> order) {
+        if (order) {
+            break;
+        }
+        else {
+            cout << "\033[03mPlease input the order bigger than 0!\033[0m";
+        }
+    }
     BPTree* bPTree = new BPTree(order);
 
     // int maxChildInt = 4, maxNodeLeaf = 3;
@@ -61,11 +82,11 @@ int main() {
     bool flag = true;
     while (flag) {
         cout << endl;
-        cout << "Select the operation:" << endl;
+        cout << "\033[03mSelect the operation:" << endl;
         cout << "Press [1]: Insert" << endl;
         cout << "Press [2]: Delete" << endl;
         cout << "Press [3]: Display" << endl;
-        cout << "Press [4]: Quit" << endl;
+        cout << "Press [4]: Quit\033[0m" << endl;
         cin >> mode;
 
         switch (mode) {
