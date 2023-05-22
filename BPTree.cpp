@@ -4,24 +4,21 @@
 #include <vector>
 #include "BPTree.h"
 
+bool insertSuccess;
+
 void insertionMethod(BPTree** bPTree) {
     int number;
 
     cout << "\033[03mEnter the number wants to be inserted: \033[0m";
-    while (cin >> number) {
-        if (isdigit(number)) {
-            break;
-        }
-        else {
-            cout << "\033[03mEnter the number wants to be inserted: \033[0m";
-        }
-    }
-
+    cin >> number;
+    insertSuccess = true;
     (*bPTree)->insertLeaf(number);
-    cout << "Insert key " << number << " :" << endl;
-    
-    // display
-    (*bPTree)->display((*bPTree)->getRoot());
+
+    if (insertSuccess) {
+        cout << "Insert key " << number << " :" << endl;
+        // display
+        (*bPTree)->display((*bPTree)->getRoot());
+    }
 }
 
 
@@ -29,14 +26,7 @@ void deleteMethod(BPTree* bPTree) {
     int number;
 
     cout << "\033[03mEnter the number wants to be deleted: \033[0m";
-    while (cin >> number) {
-        if (isdigit(number)) {
-            break;
-        }
-        else {
-            cout << "\033[03mEnter the number wants to be deleted: \033[0m";
-        }
-    }
+    cin >> number;
 
     bPTree->deleteLeaf(number);
 

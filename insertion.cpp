@@ -1,5 +1,7 @@
 #include "BPTree.h"
 
+extern bool insertSuccess;
+
 // in leaf node
 // 1st parameter: the value wants to insert
 void BPTree::insertLeaf(int key) {
@@ -37,6 +39,7 @@ void BPTree::insertLeaf(int key) {
         // the key has saved in the b+ tree
         if (find(cursor->keys.begin(), cursor->keys.end(), key) != cursor->keys.end()) {
             cout << "\033[31m\033[03mThe key " << key << " already in b+ tree!\033[0m" << endl;
+            insertSuccess = false;
             return ;
         }
 
@@ -98,8 +101,8 @@ void BPTree::insertLeaf(int key) {
             // cursor is not a root
             // insert the new key to its parent
             else {
-                cout << "parent keys: " << *parent->keys.begin() << endl;
-                cout << "newLeaf keys: " << *newLeaf->keys.begin() << endl;
+                // display(parent);
+                // display(newLeaf);
                 insertInternal(*newLeaf->keys.begin(), &parent, &newLeaf);
             }
         }
@@ -138,6 +141,11 @@ void BPTree::insertInternal(int index, Node** cursor, Node** child) {
         // finding the position for index
         vector<int>::iterator iter = upper_bound(virtualKeyNode.begin(), virtualKeyNode.end(), index);
         virtualKeyNode.insert(iter, index);
+
+        for (auto it : virtualKeyNode) {
+            cout << it << ' ';
+        }
+        cout << endl;
         
         // resizing and copying the keys to old node cursor
         (*cursor)->keys.resize(maxNodeLimit / 2);
@@ -152,6 +160,9 @@ void BPTree::insertInternal(int index, Node** cursor, Node** child) {
             newInternalNode->keys.push_back(virtualKeyNode[i]);
         }
 
+        // display(*cursor);
+        // display(newInternalNode);
+
         // transfer the child of cursor to newInternalNode
         for (vector<Node *>::iterator iter = (*cursor)->children.begin(); iter < (*cursor)->children.end(); iter++) {
             if (*(*iter)->keys.begin() > *(*cursor)->keys.begin()) {
@@ -161,9 +172,9 @@ void BPTree::insertInternal(int index, Node** cursor, Node** child) {
             }
         }
         
-        // display((*cursor));
-        // display(newInternalNode);
-
+        display(*cursor);
+        display(newInternalNode);
+        display(*child);
         if (*(*child)->keys.begin() < *newInternalNode->keys.begin()) {
             (*cursor)->children.push_back(*child);
         }
@@ -192,9 +203,9 @@ void BPTree::insertInternal(int index, Node** cursor, Node** child) {
                 }
                 newInternalNode->children.insert(next(newInternalNode->children.begin(), idx), *child);
             }
-            else {
-                (*cursor)->children.push_back(*child);
-            }
+            // else {
+            //     (*cursor)->children.push_back(*child);
+            // }
 
             // add the children
             newRoot->children.push_back(*cursor);

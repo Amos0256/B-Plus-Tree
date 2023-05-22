@@ -4,7 +4,7 @@ void BPTree::display(Node* cursor, unsigned int space) {
     // if the cursor is null, then return
     if (!cursor) {
         if(cursor == root) {
-            cout << "No Data in the B+ tree yet!" << endl;
+            cout << "\033[31m\033[03mNo data in the B+ tree!\033[0m" << endl;
         }
         return ;
     }
